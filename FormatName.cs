@@ -13,7 +13,7 @@ namespace cbosTestLibaray1
 
         public string AmAlive(string name)
         {
-            return "I am alive, " + name;
+            return "I am alive 1, " + name;
         }
     }
 }
