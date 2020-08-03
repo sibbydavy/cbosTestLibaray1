@@ -10,5 +10,10 @@ namespace cbosTestLibaray1
         {
             return "hello, " + name;
         }
+
+        public string AmAlive(string name)
+        {
+            return "I am alive, " + name;
+        }
     }
 }

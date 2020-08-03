@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <PackageId>cbosTestLibaray1</PackageId>
+    <RepositoryUrl>https://github.com/sibbydavy/cbosTestLibaray1.git</RepositoryUrl>
   </PropertyGroup>
 
 </Project>
