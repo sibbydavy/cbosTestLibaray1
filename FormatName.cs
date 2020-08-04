@@ -18,7 +18,7 @@ namespace cbosTestLibaray1
 
         public string HowAreYou(string name)
         {
-            return "How are you " + name;
+            return "How are you, " + name;
         }
     }
 }
