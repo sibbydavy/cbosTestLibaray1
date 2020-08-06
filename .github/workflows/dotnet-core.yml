@@ -27,4 +27,4 @@ jobs:
        NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN }}
 
     - name: Publish the package
-      run: dotnet nuget push ../cbosTestLibaray1/bin/Release/cbosTestLibaray1.2.0.0.nupkg 
+      run: dotnet nuget push "bin/Release/cbosTestLibaray1.2.0.0.nupkg"
