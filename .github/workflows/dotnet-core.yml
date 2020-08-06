@@ -20,11 +20,12 @@ jobs:
     - name: Build
       run: dotnet build --configuration Release 
     
-    - uses: actions/setup-dotnet@v1
+    - name: Pack
+      if: matrix.os == 'ubuntu-latest'
+      run: dotnet pack -v normal -c Release --no-restore --include-symbols --include-source -p:PackageVersion=$GITHUB_RUN_ID src/$PROJECT_NAME/$PROJECT_NAME.*proj
+    - name: Upload Artifact
+      if: matrix.os == 'ubuntu-latest'
+      uses: actions/upload-artifact@v2
       with:
-        source-url: https://nuget.pkg.github.com/sibbydavy/index.json
-      env:
-       NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN }}
-
-    - name: Publish the package
-      run: dotnet nuget push "bin/Release/cbosTestLibaray1.2.0.0.nupkg"
+        name: nupkg
+        path: ./src/${{ env.PROJECT_NAME }}/bin/Release/*.nupkg
