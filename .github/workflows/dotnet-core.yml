@@ -19,8 +19,12 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --configuration Release 
-    - name: Setup nuget config
-      run: send 's/GITHUB_TOKEN/${{secrets.GITHUB_TOKEN }}/g' .nuget.config > nuget.config
+    
+    - uses: actions/setup-dotnet@v1
+      with:
+        source-url: https://nuget.pkg.github.com/sibbydavy/index.json
+      env:
+       NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN }}
 
     - name: Publish the package
-      run: dotnet nuget push bin/Release/*.nupkg --source "github"
+      run: dotnet nuget push ./bin/Release/*.nupkg 
