@@ -18,10 +18,9 @@ jobs:
     - name: Install dependencies
       run: dotnet restore
     - name: Build
-      run: dotnet build --configuration Release --no-restore
-    - name: Test
-      run: dotnet test --no-restore --verbosity normal
-    - name: Package the project
-      run: dotnet pack --configuration Release
+      run: dotnet build --configuration Release 
+    - name: Setup nuget config
+      run: send 's/GITHUB_TOKEN/${{secrets.GITHUB_TOKEN }}/g' .nuget.config > nuget.config
+
     - name: Publish the package
-      run: dotnet nuget push bin/Release/cbosTestLibaray1.2.0.0.nupkg --source https://nuget.pkg.github.com/sibbydavy/index.json
+      run: dotnet nuget push bin/Release/*.nupkg --source "github"
