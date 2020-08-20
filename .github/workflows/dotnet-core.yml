@@ -22,7 +22,7 @@ jobs:
     
     - name: just echo a message
       run: |
-        echo $GITHUB_RUN_ID
+        echo ${{ env.PROJECT_NAME }}
     - name: Pack
       run: dotnet pack -v normal -c Release --no-restore --include-symbols --include-source -p:PackageVersion=$GITHUB_RUN_ID cbosTestLibaray1.csproj
     - name: Upload Artifact
