@@ -25,8 +25,7 @@ jobs:
         echo ${{ env.PROJECT_NAME }}
     - name: Pack
       run: dotnet pack -v normal -c Release --no-restore --include-symbols --include-source -p:PackageVersion=$GITHUB_RUN_ID cbosTestLibaray1.csproj
-    - name: Upload Artifact
-      if: matrix.os == 'ubuntu-latest'
+    - name: Upload Artifact    
       uses: actions/upload-artifact@v2
       with:
         name: nupkg
