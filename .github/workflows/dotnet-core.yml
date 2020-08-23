@@ -23,6 +23,9 @@ jobs:
     - name: just echo a message
       run: |
         echo ${{ env.PROJECT_NAME }}
+        
+    - name: print version
+      run:  echo "VERSION= $NBGV_Version"    
     - name: Pack
       run: dotnet pack -v normal -c Release --no-restore --include-symbols --include-source -p:PackageVersion=$GITHUB_RUN_ID cbosTestLibaray1.csproj
     - name: Upload Artifact    
