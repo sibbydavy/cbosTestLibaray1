@@ -71,4 +71,4 @@ jobs:
     - name: print package.json version
       run: npm ls nbgv-action ; exit 0
       working-directory: tests
-      shell: bash --noprofile --norc {0}
+   
