@@ -18,7 +18,7 @@ jobs:
       - run: echo "VERSION= $NBGV_Version"
 
       - name: Chmod shell script
-        run: chmod +x ./version.sh
+        run: chmod +x version.sh
         shell: bash
         continue-on-error: true
 
