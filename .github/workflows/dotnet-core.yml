@@ -23,5 +23,5 @@ jobs:
         continue-on-error: true
 
       - name: Version
-        run: ./version.sh
+        run: /version.sh
         shell: bash
