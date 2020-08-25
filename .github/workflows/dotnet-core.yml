@@ -29,10 +29,6 @@ jobs:
       run: chmod +x ./version.sh
       shell: bash
       continue-on-error: true
-
-    - name: Version
-      run: ./version.sh
-      shell: bash 
        
     - name: Pack
       run: dotnet pack -v normal -c Release --no-restore --include-symbols --include-source -p:PackageVersion=$GITHUB_RUN_ID cbosTestLibaray1.csproj
