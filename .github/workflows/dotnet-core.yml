@@ -1,26 +1,74 @@
-name: tag-master-branch
-env:
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+name: CI/PR
 on:
+  pull_request:
   push:
     branches:
       - master
+      - validate/*
+
 jobs:
-  build:
-    runs-on: ubuntu-16.04
+  check_diff:
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
 
-      - uses: aarnott/nbgv@master
-        with:
-          setAllVars: true
-      - run: echo "VERSION= $NBGV_Version"
+    - name: yarn
+      run: yarn
 
-      - name: Chmod shell script
-        run: chmod +x version.sh
-        shell: bash
-        continue-on-error: true
+    - name: yarn run build
+      run: yarn run build
 
-      - name: Version
-        run: version.sh
-        shell: bash
+    - name: check for uncommitted changes
+      # Ensure no changes.
+      run: |
+        git add -u . # compare after applying git EOL normalization
+        git diff --cached --exit-code --stat \
+        || (echo "##[error] found changed files after build. please 'yarn run build'" \
+                 "and check in all changes" \
+            && git diff --cached \
+            && exit 1)
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: nbgv get-version -p src
+      uses: ./
+      with:
+        path: src
+      id: nbgv
+    - name: Print step outputs
+      run: |
+        echo $VersionJson
+        echo 'SemVer2: ${{ steps.nbgv.outputs.SemVer2 }}'
+        echo 'CloudBuildNumber: ${{ steps.nbgv.outputs.CloudBuildNumber }}'
+        if [ -z "${{ steps.nbgv.outputs.CloudBuildNumber }}" ]; then exit 1; fi
+      env:
+        VersionJson: ${{ toJson(steps.nbgv.outputs) }}
+    - name: nbgv cloud -c -p src
+      uses: ./
+      with:
+        path: src
+        setCommonVars: true
+    - name: Print env vars
+      run: |
+        gci env:NBGV_*,env:Git*
+        if (-not $env:GitBuildVersion) { exit 1 }
+      shell: pwsh
+    - name: nbgv cloud -a -p src
+      uses: ./
+      with:
+        path: src
+        setAllVars: true
+    - name: Print env vars
+      run: |
+        gci env:NBGV_*,env:Git*
+        if (-not $env:NBGV_Version) { exit 1 }
+      shell: pwsh
+    - name: nbgv (stamp)
+      uses: ./
+      with:
+        stamp: tests/package.json
+    - name: print package.json version
+      run: npm ls nbgv-action ; exit 0
+      working-directory: tests
+      shell: bash --noprofile --norc {0}
