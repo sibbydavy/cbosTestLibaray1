@@ -1,40 +1,27 @@
-name: .NET Core
-
+name: tag-master-branch
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 on:
   push:
-    branches: [ master ]
+    branches:
+      - master
+
 jobs:
   build:
-    runs-on: ubuntu-latest
-    env:
-      path: c:\mydoc
+    runs-on: ubuntu-16.04
     steps:
-    - uses: actions/checkout@v2
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 3.1.301
-    - name: Install dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --configuration Release 
-    
-    - name: just echo a message
-      run: |
-        echo ${{ env.PROJECT_NAME }}
-        
+      - uses: actions/checkout@v1
 
-    - run: echo "VERSION= $NBGV_Version" 
-    - name: Chmod shell script
-      run: chmod +x ./version.sh
-      shell: bash
-      continue-on-error: true
-       
-    - name: Pack
-      run: dotnet pack -v normal -c Release --no-restore --include-symbols --include-source -p:PackageVersion=$GITHUB_RUN_ID cbosTestLibaray1.csproj
-    - name: Upload Artifact    
-      uses: actions/upload-artifact@v2
-      with:
-        name: nupkg
-        path: cbosTestLibaray1/bin/Release/*.nupkg
+      - uses: aarnott/nbgv@master
+        with:
+          setAllVars: true
+      - run: echo "VERSION= $NBGV_Version"
 
+      - name: Chmod shell script
+        run: chmod +x ./version.sh
+        shell: bash
+        continue-on-error: true
+
+      - name: Version
+        run: ./version.sh
+        shell: bash
