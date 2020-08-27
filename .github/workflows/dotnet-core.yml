@@ -17,10 +17,6 @@ jobs:
           setAllVars: true
       - run: echo "VERSION= $NBGV_Version"
       
-      - uses: dotnet/nbgv@master
-        id: nbgv
-      - run: echo 'SemVer2:${{ steps.nbgv.outputs.SemVer2 }}'
-
       - name: Chmod shell script
         run: chmod +x ./version.sh
         shell: bash
