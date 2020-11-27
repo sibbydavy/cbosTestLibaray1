@@ -23,6 +23,5 @@ jobs:
     - name: Create Nuget Package
       run: dotnet pack cbosTestLibaray1.csproj --configuration Release
       
-    - name: Publish to GitHub Registry
-      run: dotnet nuget push cbosTestLibaray1.csproj/bin/Release/*.nupkg
+
         
