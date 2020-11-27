@@ -4,7 +4,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <PackageId>cbosTestLibaray1</PackageId>
     <RepositoryUrl>https://github.com/sibbydavy/cbosTestLibaray1</RepositoryUrl>
-    <Version>2.0.0</Version>
+    <Version>2.0.0.0</Version>
     <Description>test package</Description>
     <Authors>sibby</Authors>
     <Company>ibex</Company>
