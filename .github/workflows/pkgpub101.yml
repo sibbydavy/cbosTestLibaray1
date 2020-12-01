@@ -21,7 +21,9 @@ jobs:
       run: dotnet build cbosTestLibaray1.csproj --configuration Release
     
     - name: Create Nuget Package
-      run: dotnet pack cbosTestLibaray1.csproj --configuration Release
+      run: dotnet pack --configuration Release
+    - name: Publish Nuget Pakcage
+      run: dotnet push "bin/Release/cbosTestLibaray1.2.0.0.nupkg" --source "ibex"
       
 
         
